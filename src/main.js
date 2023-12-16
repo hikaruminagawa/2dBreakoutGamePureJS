@@ -17,6 +17,17 @@ let paddleX = (canvas.width - paddleWidth) / 2;
 
 let score = 0;
 
+//Define Mouse Functions
+function mouseMoveHandler(e) {
+  const relativeX = e.clientX - canvas.offsetLeft;
+  if (relativeX > 0 && relativeX < canvas.width) {
+    paddleX = relativeX - paddleWidth / 2;
+  }
+}
+
+document.addEventListener("mousemove", mouseMoveHandler, false);
+
+
 
 //Define Keyboard Functions
 let rightPressed = false;
