@@ -17,6 +17,9 @@ let paddleX = (canvas.width - paddleWidth) / 2;
 
 let score = 0;
 
+let lives = 3;
+
+
 //Define Mouse Functions
 function mouseMoveHandler(e) {
   const relativeX = e.clientX - canvas.offsetLeft;
@@ -85,6 +88,13 @@ const drawScore = () => {
   ctx.fillStyle = "#0095DD";
   ctx.fillText(`Score: ${score}`, 8, 20);
 }
+
+const  drawLives = () => {
+  ctx.font = "16px Arial";
+  ctx.fillStyle = "#0095DD";
+  ctx.fillText(`Lives: ${lives}`, canvas.width - 65, 20);
+}
+
   
 //Define Brick Basic Properties
 const brickRowCount = 3;
@@ -150,6 +160,7 @@ const draw = () =>{
     drawBricks();
     collisionDetection();
     drawScore();
+    drawLives();
     if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
         dx = -dx;
     }
@@ -159,9 +170,29 @@ const draw = () =>{
         if(x > paddleX && x < paddleX + paddleWidth){
             dy = -dy;
         } else{
-        alert("GAME OVER");
-        document.location.reload();
-        clearInterval(interval); // Needed for Chrome to end game
+          lives--;
+          if (!lives) {
+            lives--;
+            if (!lives) {
+              alert("GAME OVER");
+              document.location.reload();
+              clearInterval(interval); // クロームがゲームを終了するのに必要
+            } else {
+              x = canvas.width / 2;
+              y = canvas.height - 30;
+              dx = 2;
+              dy = -2;
+              paddleX = (canvas.width - paddleWidth) / 2;
+            }
+
+          } else {
+            x = canvas.width / 2;
+            y = canvas.height - 30;
+            dx = 2;
+            dy = -2;
+            paddleX = (canvas.width - paddleWidth) / 2;
+          } 
+          
       }
     }
     if (rightPressed) {
